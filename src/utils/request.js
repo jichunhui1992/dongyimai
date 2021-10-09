@@ -49,6 +49,7 @@ export const request = (url, method, submitData) => {
     method,
     // params: submitData || {}
     // data
-    [method.toLowerCase === 'get' ? 'params' : 'data']: submitData // 动态插入key，写js表达式，执行结果当做key
+    [method.toLowerCase() === 'get' ? 'params' : 'data']: submitData // 动态插入key，写js表达式，执行结果当做key
+    // [method.toLowerCase() === 'get' ? 'params' : 'data']: submitData
   })
 }

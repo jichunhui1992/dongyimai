@@ -1,5 +1,8 @@
 <template>
-  <router-view />
+  <div class="container">
+      首页组件
+
+  </div>
 </template>
 
 <script>
