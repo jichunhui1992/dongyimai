@@ -43,7 +43,7 @@ instance.interceptors.response.use((res) => {
   return Promise.reject(err)
 })
 
-export const request = (url, method, submitData) => {
+export default (url, method, submitData) => {
   return instance({
     url,
     method,
