@@ -16,3 +16,11 @@ export const findNew = () => {
 export const findHot = () => {
   return request('home/hot', 'get')
 }
+// 获取首页产品
+export const findGoods = () => {
+  return request('home/goods', 'get')
+}
+// 获取特别推荐
+export const findSpecial = () => {
+  return request('home/special', 'get')
+}

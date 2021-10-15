@@ -17,7 +17,8 @@ export const useLazyData = (apiFn) => {
           result.value = data.result
         })
       }
-    }
+    },
+    { threshold: 0 }
   )
   return { result, target }
 }

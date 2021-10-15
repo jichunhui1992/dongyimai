@@ -4,6 +4,7 @@ const Layout = () => import('@/views/Layout')
 const Home = () => import('@/views/home')
 const TopCategory = () => import('@/views/category/index')
 const SubCategory = () => import('@/views/category/sub.vue')
+const goods = () => import('@/views/goods/index.vue')
 
 const routes = [
   {
@@ -22,14 +23,22 @@ const routes = [
     {
       path: '/category/sub/:id',
       component: SubCategory
-    }]
+    },
+    {
+      path: '/product/:id',
+      component: goods
+    }
+    ]
   }
 
 ]
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes
+  routes,
+  scrollBehavior () {
+    return { left: 0, top: 0 }
+  }
 })
 
 export default router
