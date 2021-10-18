@@ -36,11 +36,14 @@ export default {
     // 注意这里要使用num。vlue
 
     const changeNum = (step) => {
+      // debugger
+      // console.log(1)
       const newValue = num.value + step
+      // console.log(newValue)
       if (newValue < props.min || newValue > props.max) return
       num.value = newValue
 
-      emit('change', num.value)
+      emit('change', newValue)
     }
     return { changeNum, num }
   }

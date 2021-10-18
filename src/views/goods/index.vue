@@ -16,8 +16,9 @@
         </div>
         <div class="spec">
         <GoodsName :goods="goods" />
-        <GoodsSku :goods="goods" skuId="300260780" :change="changeSku" />
-        <XtxNumbox v-model="num" label="数量" :max="goods.inventory" :min="1" />
+        <GoodsSku :goods="goods" skuId="1026026" @change="changeSku" />
+        <XtxNumbox v-model="num" label="数量" :max="goods.skus[0].inventory" :min="1"  />
+        <XtxButton type="primary" size="middle" style="margin-top:20px" >加入购物车</XtxButton>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -26,12 +27,18 @@
       <div class="goods-footer">
         <div class="goods-article">
           <!-- 商品+评价 -->
+          <GoodsTabs />
           <div class="goods-tabs"></div>
           <!-- 注意事项 -->
-          <div class="goods-warn"></div>
+          <div class="goods-warn">
+            <GoodsWarn />
+          </div>
         </div>
         <!-- 24热榜+专题推荐 -->
-        <div class="goods-aside"></div>
+        <div class="goods-aside">
+          <GoodsHot :goodsId="goods.id" :type="1" />
+          <GoodsHot :goodsId="goods.id" :type="2" />
+        </div>
       </div>
     </div>
   </div>
@@ -39,22 +46,25 @@
 
 <script>
 import { useRoute } from 'vue-router'
-import { nextTick, ref, watch } from 'vue'
+import { nextTick, ref, watch, provide } from 'vue'
 import GoodsRelevant from './components/goods-relevant'
 import GoodsImage from './components/goods-image'
 import GoodsSales from './components/goods-sales'
 import GoodsName from './components/goods-name'
 import GoodsSku from './components/goods-sku'
+import GoodsTabs from './components/goods-tabs'
+import GoodsHot from './components/goods-hot'
+import GoodsWarn from './components/goods-warn'
 import { findGoods } from '@/api/product'
 export default {
   name: 'XtxGoodsPage',
-  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku },
+  components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku, GoodsTabs, GoodsHot, GoodsWarn },
   setup () {
     const goods = useGoods()
     // if (goods.value) {
     //   return goods
     // }
-    // console.log(goods)
+    console.log(goods)
     const changeSku = (sku) => {
       if (sku.skuId) {
         goods.value.price = sku.price
@@ -84,6 +94,8 @@ const useGoods = () => {
       })
     }
   }, { immediate: true })
+  // 提供数据给后代使用
+  provide('goods', goods)
 
   return goods
 }
