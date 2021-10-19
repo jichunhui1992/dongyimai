@@ -4,10 +4,10 @@
       <ul>
         <template v-if="profile.token">
         <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{profile.account}}</a></li>
-        <li><a href="javascript:;">退出登录</a></li>
+        <li><a href="javascript:;" @click="logout">退出登录</a></li>
         </template>
         <template v-else>
-        <li><a href="javascript:;">请先登录</a></li>
+        <li><router-link to="/login">请先登录</router-link></li>
         <li><a href="javascript:;">免费注册</a></li>
         </template>
         <li><a href="javascript:;">我的订单</a></li>
@@ -22,18 +22,25 @@
 <script>
 import { computed } from '@vue/reactivity'
 import { useStore } from 'vuex'
+import { useRoute, useRouter } from 'vue-router'
 
 export default {
   name: 'AppTopnav',
   setup () {
     // 获取用户信息切换导航菜单
     const store = useStore()// vue3使用vuex必须引入usestore命令
+    const router = useRouter()
+    const route = useRoute()
     // const profile = store.state.user.profile//使用vuex的state响应式需要设置计算属性那么设置成reactive可以吗？日后测试
     const profile = computed(() => {
       return store.state.user.profile
     })
+    const logout = () => {
+      store.commit('user/setUser', {})
+      router.push(route.query.redirectUrl || '/login')
+    }
 
-    return { profile }
+    return { profile, logout }
   }
 }
 </script>

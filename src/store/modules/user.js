@@ -10,13 +10,17 @@ export default {
         mobile: '',
         token: '',
         account: ''
-      }
+      },
+      redirectUrl: '/'
 
     }
   },
   mutations: {
     setUser (state, payload) {
       state.profile = payload
+    },
+    setRedirectUrl (state, payload) {
+      state.redirectUrl = payload
     }
   }
 }

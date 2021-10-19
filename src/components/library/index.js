@@ -5,10 +5,12 @@
 // import XtxCarousel from './xtx-carousel.vue'
 // import XtxMore from './xtx-more.vue'
 import defaultImg from '@/assets/images/200.png'
+import Message from './Message'
 // import XtxBreadItem from './xtx-bread-item.vue'
 // import XtxBread from './xtx-bread.vue'
 const importFn = require.context('./', false, /\.vue$/)
 // console.log(importFn.keys())
+
 export default {
   install (app) {
     // 在app上扩展app提供component方法以及directive方法
@@ -26,6 +28,8 @@ export default {
       app.component(component.name, component)
     })
     defineDirective(app)
+    // 定义一个原型函数
+    app.config.globalProperties.$message = Message
   }
 }
 
