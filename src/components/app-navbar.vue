@@ -37,6 +37,7 @@ export default {
     })
     const logout = () => {
       store.commit('user/setUser', {})
+      store.commit('cart/setCart', [])
       router.push(route.query.redirectUrl || '/login')
     }
 

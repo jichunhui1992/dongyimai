@@ -39,7 +39,7 @@ export default {
     const activeName = ref('account')
     const route = useRoute()
     const store = useStore()
-    store.commit('user/setsetRedirectUrl', route.query.redirectUrl || '/')
+    store.commit('user/setRedirectUrl', route.query.redirectUrl || '/')
     // 存入回跳地址
     return { activeName }
   }

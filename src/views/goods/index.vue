@@ -16,9 +16,9 @@
         </div>
         <div class="spec">
         <GoodsName :goods="goods" />
-        <GoodsSku :goods="goods" skuId="1026026" @change="changeSku" />
+        <GoodsSku :goods="goods"  @change="changeSku" />
         <XtxNumbox v-model="num" label="数量" :max="goods.skus[0].inventory" :min="1"  />
-        <XtxButton type="primary" size="middle" style="margin-top:20px" >加入购物车</XtxButton>
+        <XtxButton type="primary" size="middle" style="margin-top:20px" @click="insertCart" >加入购物车</XtxButton>
         </div>
       </div>
       <!-- 商品推荐 -->
@@ -56,6 +56,8 @@ import GoodsTabs from './components/goods-tabs'
 import GoodsHot from './components/goods-hot'
 import GoodsWarn from './components/goods-warn'
 import { findGoods } from '@/api/product'
+import { useStore } from 'vuex'
+import Message from '@/components/library/Message'
 export default {
   name: 'XtxGoodsPage',
   components: { GoodsRelevant, GoodsImage, GoodsSales, GoodsName, GoodsSku, GoodsTabs, GoodsHot, GoodsWarn },
@@ -71,10 +73,37 @@ export default {
         goods.value.oldPrice = sku.oldPrice
         goods.value.inventory = sku.inventory
       }
+      // 记录选择后的SKU可能有数据 可能有数据 也可能没有数据
+      currSku.value = sku
     }
     // 双向绑定数量值
     const num = ref(1)
-    return { goods, changeSku, num }
+    const store = useStore()
+    const currSku = ref(null)
+    const insertCart = () => {
+      // console.log(1)
+      // console.log(currSku.value)
+      if (currSku.value && currSku.value.skuId) {
+        store.dispatch('cart/insertCart', {
+          id: goods.value.id,
+          skuId: currSku.value.skuId,
+          name: goods.value.name,
+          picture: goods.value.mainPictures[0],
+          price: currSku.value.price,
+          nowPrice: currSku.value.price,
+          count: num.value,
+          attrsText: currSku.value.specsText,
+          selected: true,
+          isEffective: true,
+          stock: currSku.value.inventory
+        }).then(() => {
+          Message({ type: 'success', text: '添加购物车成功' })
+        })
+      } else {
+        Message({ text: '请选择完整规格' })
+      }
+    }
+    return { goods, changeSku, num, insertCart }
   }
 
 }

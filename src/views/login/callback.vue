@@ -17,10 +17,10 @@
       </a>
     </nav>
     <div class="tab-content" v-if="hasAccount">
-      <CallbackBind :nickname="nickname" :avatar="avatar" />
+      <CallbackBind :nickname="nickname" :avatar="avatar" :unionId="unionId" />
     </div>
     <div class="tab-content" v-else>
-      <CallbackPatch />
+      <CallbackPatch :unionId="unionId" />
     </div>
   </section>
 
@@ -49,20 +49,25 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const isBind = ref(true)
+    const unionId = ref(null)
     if (QC.Login.check()) {
       QC.Login.getMe((openId) => {
+        unionId.value = openId
         userQQLogin(openId).then(data => {
         //   console.log(data)
           const { id, account, avatar, mobile, nickname, token } = data.result
           store.commit('user/setUser', { id, account, avatar, mobile, nickname, token })
-          router.push(store.state.user.redirectUrl)
-          Message({ type: 'success', text: '登录成功' })
+          store.dispatch('cart/mergeCart').then(() => {
+            router.push(store.state.user.redirectUrl || '/')
+            // 成功消息提示
+            Message({ type: 'success', text: '登录成功' })
+          })
         }).catch(() => {
           isBind.value = false
         })
       })
     }
-    return { hasAccount, isBind, route }
+    return { hasAccount, isBind, route, unionId }
   }
 }
 </script>

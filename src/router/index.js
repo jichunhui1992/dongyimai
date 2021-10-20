@@ -7,6 +7,7 @@ const SubCategory = () => import('@/views/category/sub.vue')
 const goods = () => import('@/views/goods/index.vue')
 const login = () => import('@/views/login/index.vue')
 const LoginCallback = () => import('@/views/login/callback.vue')
+const cart = () => import('@/views/cart/index.vue')
 
 const routes = [
   {
@@ -29,6 +30,10 @@ const routes = [
     {
       path: '/product/:id',
       component: goods
+    },
+    {
+      path: '/cart',
+      component: cart
     }
     ]
   },

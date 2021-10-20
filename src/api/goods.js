@@ -9,3 +9,6 @@ export const findCommentInfoByGoods = (id) => {
 export const findGoodsCommentList = (id, params) => {
   return request(`https://mock.boxuegu.com/mock/1175/goods/${id}/evaluate/page`, 'get', params)
 }
+export const getSpecsAndSkus = (skuId) => {
+  return request(`/goods/sku/${skuId}`, 'get')
+}
